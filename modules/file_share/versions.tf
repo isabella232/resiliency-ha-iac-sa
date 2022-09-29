@@ -1,24 +1,22 @@
 /**
 #################################################################################################################
-*                                 Public Gateway Output Variable Section
+*                     Terraform Initialization for this Module and Version Specification
+*                               Start of the Terraform Initialization Section 
 #################################################################################################################
 **/
-
-
-/**
-* Output Variable 
-* Element : pg_id
-* This variable will return the ID of the public_gateway created in particular zone
-**/
-
-output "pg_id" {
-  value       = ibm_is_public_gateway.pg.id
-  description = "ID's of the public gateways created"
+terraform {
+  required_providers {
+    ibm = {
+      source = "IBM-Cloud/ibm"
+    }
+    http-full = {
+      source = "salrashid123/http-full"
+    }
+  }
 }
 
-
-/**               
+/**
 #################################################################################################################
-*                                   End of the Output Section 
+*                               End of the Terraform Initialization Section 
 #################################################################################################################
 **/

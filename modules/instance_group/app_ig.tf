@@ -4,10 +4,37 @@
 # #################################################################################################################
 # **/
 
+data "ibm_is_image" "app_os" {
+  identifier = var.app_image
+}
+
 locals {
-  lin_user_data_app = <<-EOUD
+  enable_file_share       = var.enable_file_share
+  mount_path              = var.mount_path != null ? var.mount_path : ""
+  lin_userdata_app_ubuntu = <<-EOUD
   #!/bin/bash
   chmod 0755 /usr/bin/pkexec
+  sudo apt update & apt upgrade -y
+  ### Enabling File Sharing Mount Point
+  if ${local.enable_file_share}
+  then
+    sudo mkdir -p /mnt/nfs
+    sudo apt install -y nfs-common
+    mount -t nfs4 -o sec=sys,nfsvers=4.1 ${local.mount_path} /mnt/nfs/
+  fi
+  EOUD
+
+  lin_userdata_app_rhel = <<-EOUD
+  #!/bin/bash
+  chmod 0755 /usr/bin/pkexec
+  sudo yum update -y
+  ### Enabling File Sharing Mount Point
+  if ${local.enable_file_share}
+  then
+    sudo mkdir -p /mnt/nfs
+    sudo yum install -y nfs-utils
+    mount -t nfs4 -o sec=sys,nfsvers=4.1 ${local.mount_path} /mnt/nfs/
+  fi
   EOUD
 }
 
@@ -27,7 +54,7 @@ resource "ibm_is_instance_template" "app_template" {
   image           = var.app_image
   profile         = var.app_instance_profile
   placement_group = var.app_placement_group_id
-  user_data       = local.lin_user_data_app
+  user_data       = split("-", data.ibm_is_image.app_os.os)[0] == "ubuntu" ? local.lin_userdata_app_ubuntu : local.lin_userdata_app_rhel
   primary_network_interface {
     subnet          = var.subnets["app"].id
     security_groups = [var.sg_objects["app"].id]
@@ -83,7 +110,7 @@ resource "ibm_is_instance_group_manager" "app_instance_group_manager" {
 * This resource will create the App cpu policy along with the user specified Average target CPU Percent
 **/
 resource "ibm_is_instance_group_manager_policy" "app_cpu_policy" {
-  name                   = "${var.prefix}-app-cpu-policy"
+  name                   = "${var.prefix}app-cpu-policy"
   policy_type            = "target"
   instance_group         = ibm_is_instance_group.app_instance_group.id
   instance_group_manager = ibm_is_instance_group_manager.app_instance_group_manager.manager_id
@@ -97,7 +124,7 @@ resource "ibm_is_instance_group_manager_policy" "app_cpu_policy" {
 * This resource will create the App memory policy along with the user specified Average target Memory Percent
 **/
 resource "ibm_is_instance_group_manager_policy" "app_memory_policy" {
-  name                   = "${var.prefix}-app-memory-policy"
+  name                   = "${var.prefix}app-memory-policy"
   policy_type            = "target"
   instance_group         = ibm_is_instance_group.app_instance_group.id
   instance_group_manager = ibm_is_instance_group_manager.app_instance_group_manager.manager_id
@@ -111,7 +138,7 @@ resource "ibm_is_instance_group_manager_policy" "app_memory_policy" {
 * This resource will create the App network in policy along with the user specified Average target Network in (Mbps)
 **/
 resource "ibm_is_instance_group_manager_policy" "app_network_in_policy" {
-  name                   = "${var.prefix}-app-network-in-policy"
+  name                   = "${var.prefix}app-network-in-policy"
   policy_type            = "target"
   instance_group         = ibm_is_instance_group.app_instance_group.id
   instance_group_manager = ibm_is_instance_group_manager.app_instance_group_manager.manager_id
@@ -126,7 +153,7 @@ resource "ibm_is_instance_group_manager_policy" "app_network_in_policy" {
 * This resource will create the App network out policy along with the user specified average target Network Out (Mbps)
 **/
 resource "ibm_is_instance_group_manager_policy" "app_network_out_policy" {
-  name                   = "${var.prefix}-app-network-out-policy"
+  name                   = "${var.prefix}app-network-out-policy"
   policy_type            = "target"
   instance_group         = ibm_is_instance_group.app_instance_group.id
   instance_group_manager = ibm_is_instance_group_manager.app_instance_group_manager.manager_id

@@ -170,7 +170,7 @@ variable "app_instance_profile" {
 
 /**
 * Name: app_image  
-* Description: Image ID for the App VSI for App Instance group template
+* Desc: Image ID for the App VSI for App Instance group template
 * Type: string
 **/
 variable "app_image" {
@@ -246,7 +246,7 @@ variable "web_instance_profile" {
 
 /**
 * Name: web_image  
-* Description: Image ID for the Web VSI for Web Instance group template
+* Desc: Image ID for the Web VSI for Web Instance group template
 * Type: string
 **/
 
@@ -303,6 +303,26 @@ variable "web_placement_group_id" {
 **/
 variable "app_placement_group_id" {
   description = "Placement group ID to be used for App servers."
+  type        = string
+}
+
+/**
+* Name: enable_file_share
+* Type: Boolean
+* Desc: Enter true or false. This variable will determine whether to create the file share or not.
+**/
+variable "enable_file_share" {
+  description = "Enter true or false. This variable will determine whether to create the file share or not."
+  type        = bool
+}
+
+/**
+* Name: mount_path
+* Type: string
+* Desc: This is the mount path.
+**/
+variable "mount_path" {
+  description = "This is the mount path."
   type        = string
 }
 

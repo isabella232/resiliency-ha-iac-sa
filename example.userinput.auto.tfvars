@@ -70,14 +70,14 @@
 # user_ssh_keys = "first-ssh-key,second-ssh-key"
 
 # /** 
-#     This is the list of public IP address of user's local machines. We will whitelist only these public IP in Bastion's security group. So that, Bastion server can 
+#     This is the list of public IP address of user's local machines. We will allowlist only these public IP in Bastion's security group. So that, Bastion server can 
 #     be accessed only from the User's System.
 #     Please update the public IP address list before every terraform apply. 
 #     As your Public IP address could be dynamically changing each day. 
 #     To get your Public IP you can use command <dig +short myip.opendns.com @resolver1.opendns.com> or visit "https://www.whatismyip.com"
 #     The IP Address should be in format of X.X.X.X/32 and will be used to login to the bastion server
 # */
-#  public_ip_addresses = "123.201.8.30,219.91.139.49"
+# public_ip_addresses = "123.201.8.30,219.91.139.49"
 
 # /**
 # *   Enter bastion_image value. It is the ID of the bastion OS image which will installed on the bastion VSI provisioned by the bastion module
@@ -196,4 +196,3 @@
 # *   Here we have  app_pg_strategy = "host_spread"
 # **/
 # app_pg_strategy = "host_spread"
-

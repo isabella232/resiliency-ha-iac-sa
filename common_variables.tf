@@ -102,7 +102,7 @@ variable "resource_group_name" {
 /**
 * Name: prefix
 * Type: String
-* Description: Please enter the prefix, which will be added in the resource's name. \nLength of prefix should be less than 11 characters. \nFor the prefix value only a-z, A-Z and 0-9 are allowed, the prefix should start with a character, and the prefix should end a with hyphen(-).
+* Desc: Please enter the prefix, which will be added in the resource's name. \nLength of prefix should be less than 11 characters. \nFor the prefix value only a-z, A-Z and 0-9 are allowed, the prefix should start with a character, and the prefix should end a with hyphen(-).
 **/
 variable "prefix" {
   description = "An alphanumeric prefix identifier that will be added to the beginning of all of the VPC resources. It should end with a hyphen (-) and does not exceed 11 characters."
@@ -115,5 +115,5 @@ variable "prefix" {
     condition     = can(regex("^[A-Za-z][-0-9A-Za-z]*-$", var.prefix))
     error_message = "For the prefix value only a-z, A-Z and 0-9 are allowed, the prefix should start with a character, and the prefix should end a with hyphen(-)."
   }
-}           
+}
   

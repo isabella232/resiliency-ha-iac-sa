@@ -99,9 +99,9 @@ resource "ibm_is_floating_ip" "bastion_floating_ip" {
 * Element : Wait for few seconds
 **/
 
-resource "time_sleep" "wait_240_seconds" {
+resource "time_sleep" "wait_600_seconds" {
   depends_on      = [ibm_is_instance.bastion, ibm_is_floating_ip.bastion_floating_ip]
-  create_duration = "240s"
+  create_duration = "600s"
 }
 
 

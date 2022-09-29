@@ -17,7 +17,7 @@ variable "resource_group_name" {
 /**
 * Name: api_key
 * Type: String
-* Description: Please enter the IBM Cloud API key
+* Desc: Please enter the IBM Cloud API key
 */
 variable "api_key" {
   description = "Please enter the IBM Cloud API key."
@@ -27,7 +27,7 @@ variable "api_key" {
 /**
 * Name: region
 * Type: String
-* Description: Region to be used for resources creation
+* Desc: Region to be used for resources creation
 */
 variable "region" {
   description = "Please enter a region from the following available region and zones mapping: \nus-south\nus-east\neu-gb\neu-de\njp-tok\nau-syd\njp-osa\nbr-sao\nca-tor"
@@ -37,7 +37,7 @@ variable "region" {
 /**
 * Name: enable_floating_ip
 * Type: bool
-* Description: Determines whether to enable floating IP for Bastion server or not. Give true or false.
+* Desc: Determines whether to enable floating IP for Bastion server or not. Give true or false.
 **/
 variable "enable_floating_ip" {
   description = "Determines whether to enable floating IP for Bastion server or not. Give true or false."
@@ -58,7 +58,7 @@ variable "bastion_ip_count" {
 /**
 * Name: public_ip_address_list
 * Type: list
-* Description: This is the list of User's Public IP address which will be used to login to Bastion VSI in the format X.X.X.X/32(for single ip address) or a valid CIDR.
+* Desc: This is the list of User's Public IP address which will be used to login to Bastion VSI in the format X.X.X.X/32(for single ip address) or a valid CIDR.
 **/
 variable "public_ip_address_list" {
   description = "Provide the User's Public IP address in the format X.X.X.X/32 which will be used to login to Bastion VSI. Also Please update your changed public IP address every time before executing terraform apply"
@@ -68,7 +68,7 @@ variable "public_ip_address_list" {
 /**
 * Name: prefix
 * Type: String
-* Description: This is the prefix text that will be prepended in every resource name created by this script.
+* Desc: This is the prefix text that will be prepended in every resource name created by this script.
 **/
 variable "prefix" {
   description = "Prefix for all the resources."
@@ -78,7 +78,7 @@ variable "prefix" {
 /**
 * Name: vpc_id
 * Type: String
-* Description: This is the vpc ID which will be used for bastion module. We are passing this vpc_id from main.tf
+* Desc: This is the vpc ID which will be used for bastion module. We are passing this vpc_id from main.tf
 **/
 variable "vpc_id" {
   description = "Required parameter vpc_id"
@@ -88,7 +88,7 @@ variable "vpc_id" {
 /**
 * Name: user_ssh_key
 * Type: String
-* Description: This is the name of an existing ssh key of user which will be used to login to the Bastion server. You can check your key name in IBM cloud.
+* Desc: This is the name of an existing ssh key of user which will be used to login to the Bastion server. You can check your key name in IBM cloud.
 *              Whose private key content should be there in path ~/.ssh/id_rsa 
 *              If you don't have an existing key, then create one using <ssh-keygen -t rsa -b 4096 -C "user_ID"> command. And create a ssh key in IBM cloud
 *              with the public contents of file ~/.ssh/id_rsa.pub  **/
@@ -100,7 +100,7 @@ variable "user_ssh_key" {
 /**
 * Name: bastion_ssh_key
 * Type: String
-* Description: This is the name of the ssh key which will be created dynamically on the bastion VSI. So that, users can login to Web/App/DB servers via Bastion server only.
+* Desc: This is the name of the ssh key which will be created dynamically on the bastion VSI. So that, users can login to Web/App/DB servers via Bastion server only.
 *              If you are passing "bastion-ssh-key" name here, then the ssh key will create on IBM cloud dynamically with name "{var.prefix}-bastion-ssh-key".
 *              As seen, this ssh key name will contain the prefix name as well.
 **/
@@ -140,10 +140,6 @@ variable "zone" {
   description = "Availability Zone where bastion resource will be created"
   type        = string
 }
-
-
-
-
 
 /**
 #################################################################################################################

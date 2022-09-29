@@ -9,6 +9,9 @@ terraform {
     ibm = {
       source = "IBM-Cloud/ibm"
     }
+    http-full = {
+      source = "salrashid123/http-full"
+    }
   }
 }
 
