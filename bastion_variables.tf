@@ -7,16 +7,16 @@
 
 /**
 * Name: enable_floating_ip
-* Description: Determines whether to enable floating IP for Bastion server or not. Give true or false.
+* Desc: Determines whether to enable floating IP for Bastion server or not. Give true or false.
 **/
-locals  {
-  enable_floating_ip  = true
+locals {
+  enable_floating_ip = true
 }
 
 /**
 * Name: bastion_image
 * Type: String
-* Description: This is the image ID used for Bastion VSI.
+* Desc: This is the image ID used for Bastion VSI.
 **/
 variable "bastion_image" {
   description = "Image type you want to use for the bastion server. This can be either a custom image or IBM Cloud stock image. Image ID is 41 characters and region-specific. [Learn more](https://cloud.ibm.com/docs/vpc?topic=vpc-about-images)"
@@ -30,7 +30,7 @@ variable "bastion_image" {
 /**
 * Name: public_ip_address_list
 * Type: list
-* Description: This is the list of User's Public IP address which will be used to login to Bastion VSI in the format X.X.X.X
+* Desc: This is the list of User's Public IP address which will be used to login to Bastion VSI in the format X.X.X.X
 *              Please update your public IP address every time before executing terraform apply. As your Public IP address could be dynamically changing each day.
 *              To get your Public IP you can use command <dig +short myip.opendns.com @resolver1.opendns.com> or visit "https://www.whatismyip.com"
 **/
@@ -70,7 +70,7 @@ variable "bastion_ip_count" {
 /**
 * Name: bastion_ssh_key_var_name
 * Type: String
-* Description: This is the name of the ssh key which will be created dynamically on the bastion VSI. So that, users can login to Web/App/DB servers via Bastion server only.
+* Desc: This is the name of the ssh key which will be created dynamically on the bastion VSI. So that, users can login to Web/App/DB servers via Bastion server only.
 *              If you are passing "bastion-ssh-key" name here, then the ssh key will create on IBM cloud dynamically with name "{var.prefix}-bastion-ssh-key".
 *              As seen, this ssh key name will contain the prefix name as well.
 **/
@@ -83,15 +83,13 @@ variable "bastion_ssh_key_var_name" {
 /**
 * Name: bastion_profile
 * Type: String
-* Description: Specify the profile needed for Bastion VSI.
+* Desc: Specify the profile needed for Bastion VSI.
 **/
 variable "bastion_profile" {
   description = "VSI profile size which determines size of vCPU, RAM and network bandwidth for the bastion server. [Learn more](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles&interface=ui)"
   type        = string
   default     = "cx2-2x4"
 }
-
-
 
 /**               
 #################################################################################################################

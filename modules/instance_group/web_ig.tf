@@ -84,7 +84,7 @@ resource "ibm_is_instance_group_manager" "web_instance_group_manager" {
 * This resource will create the Web cpu policy along with the user specified Average target CPU Percent
 **/
 resource "ibm_is_instance_group_manager_policy" "web_cpu_policy" {
-  name                   = "${var.prefix}-web-cpu-policy"
+  name                   = "${var.prefix}web-cpu-policy"
   policy_type            = "target"
   instance_group         = ibm_is_instance_group.web_instance_group.id
   instance_group_manager = ibm_is_instance_group_manager.web_instance_group_manager.manager_id
@@ -99,7 +99,7 @@ resource "ibm_is_instance_group_manager_policy" "web_cpu_policy" {
 * This resource will create the Web memory policy along with the user specified Average target Memory Percent
 **/
 resource "ibm_is_instance_group_manager_policy" "web_memory_policy" {
-  name                   = "${var.prefix}-web-memory-policy"
+  name                   = "${var.prefix}web-memory-policy"
   policy_type            = "target"
   instance_group         = ibm_is_instance_group.web_instance_group.id
   instance_group_manager = ibm_is_instance_group_manager.web_instance_group_manager.manager_id
@@ -114,7 +114,7 @@ resource "ibm_is_instance_group_manager_policy" "web_memory_policy" {
 * This resource will create the Web network in policy along with the user specified Average target Network in (Mbps)
 **/
 resource "ibm_is_instance_group_manager_policy" "web_network_in_policy" {
-  name                   = "${var.prefix}-web-network-in-policy"
+  name                   = "${var.prefix}web-network-in-policy"
   policy_type            = "target"
   instance_group         = ibm_is_instance_group.web_instance_group.id
   instance_group_manager = ibm_is_instance_group_manager.web_instance_group_manager.manager_id
@@ -130,7 +130,7 @@ resource "ibm_is_instance_group_manager_policy" "web_network_in_policy" {
 * This resource will create the Web network out policy along with the user specified Average target Network out (Mbps)
 **/
 resource "ibm_is_instance_group_manager_policy" "web_network_out_policy" {
-  name                   = "${var.prefix}-web-network-out-policy"
+  name                   = "${var.prefix}web-network-out-policy"
   policy_type            = "target"
   instance_group         = ibm_is_instance_group.web_instance_group.id
   instance_group_manager = ibm_is_instance_group_manager.web_instance_group_manager.manager_id

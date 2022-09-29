@@ -23,9 +23,11 @@
 * Data Source Auth Token        = 1
 * Dynamic ssh_key               = 1
 * placement Group               = 3
+* File Share                    = 1
+* Replica File share            = 1
 *--------------------------------------|
 *--------------------------------------|
-* Total Resources               = 62   |
+* Total Resources               = 64   |
 *--------------------------------------|
 *--------------------------------------|
 **/
@@ -38,7 +40,6 @@
 * Element: null_resource
 * This resource is used to validate the instance groups max server count and Database VSI count as per the placement group strategy provided.
 **/
-
 resource "null_resource" "placement_group_validation_check_linux" {
   provisioner "local-exec" {
     command    = <<EOT
@@ -56,7 +57,6 @@ resource "null_resource" "placement_group_validation_check_linux" {
 * prefix: This is the prefix text that will be pre-pended in every resource name created by this module.
 * resource_group_name: The resource group Name
 **/
-
 module "vpc" {
   source              = "./modules/vpc"
   prefix              = var.prefix
@@ -75,7 +75,6 @@ module "vpc" {
 * web_pg_strategy: The strategy for Web servers placement group - host_spread: place on different compute hosts - power_spread: place on compute hosts that use different power sources.
 * app_pg_strategy: The strategy for App servers placement group - host_spread: place on different compute hosts - power_spread: place on compute hosts that use different power sources.
 **/
-
 module "placement_group" {
   source              = "./modules/placement_group"
   prefix              = var.prefix
@@ -115,7 +114,6 @@ data "ibm_is_ssh_key" "ssh_key_id" {
 * bastion_ip_count: IP count is the total number of total_ipv4_address_count for Bastion Subnet
 * depends_on: This ensures that the VPC object will be created before the bastion
 **/
-
 module "bastion" {
   source                 = "./modules/bastion"
   prefix                 = var.prefix
@@ -131,7 +129,39 @@ module "bastion" {
   bastion_profile        = var.bastion_profile
   bastion_image          = var.bastion_image
   bastion_ip_count       = var.bastion_ip_count
-  depends_on             = [module.vpc]
+  depends_on             = [module.vpc, module.file_share]
+}
+
+/**
+* Calling the file_share module with the following required parameters
+* source: Source Directory of the Module
+* api_key: Api key of user which will be used to login to IBM cloud in provisioner section
+* vpc_id: VPC ID to contain the subnets
+* resource_group_name: The resource group Name
+* zone: Please provide the zone name. e.g. us-south-1,us-south-2,us-south-3,us-east-1,etc. 
+* prefix: This will be appended in resources created by this module
+* region: Region name e.g. us-south, us-east, etc.
+* enable_file_share: This variable will determine whether to create the file share or not.
+* share_size: Specify the file share size. The value should be between 10 GB to 32000 GB's.
+* share_profile: Enter the share profile value. The value should be tier-3iops, tier-5iops and tier-10iops.
+* replica_zone: Availability Zone where replica file share resource will be created.
+* replication_cron_spec: Enter the file share replication schedule in Linux crontab format.
+* depends_on: This ensures that the VPC object will be created before the bastion
+**/
+module "file_share" {
+  source                = "./modules/file_share"
+  api_key               = var.api_key
+  resource_group_name   = var.resource_group_name
+  zone                  = var.zone
+  prefix                = var.prefix
+  vpc_id                = module.vpc.id
+  region                = local.regions[var.zone]
+  enable_file_share     = var.enable_file_share
+  share_size            = var.share_size
+  share_profile         = var.share_profile
+  replica_zone          = var.replica_zone
+  replication_cron_spec = var.replication_cron_spec
+  depends_on            = [module.vpc]
 }
 
 /**
@@ -146,7 +176,6 @@ module "bastion" {
 * Now, before re-running the script -> Check the Bastion server image version. 
 * If it is windows, It should be "Windows Server 2019 Standard Edition (amd64) ibm-windows-server-2019-full-standard-amd64-6" only.
 **/
-
 data "ibm_is_ssh_key" "bastion_key_id" {
   name = "${var.prefix}${var.bastion_ssh_key_var_name}"
   depends_on = [
@@ -222,7 +251,6 @@ module "subnet" {
 * alb_port: This is the Application load balancer listener port
 * depends_on: This ensures that the vpc and subnet object will be created before the security groups
 **/
-
 module "security_group" {
   source              = "./modules/security_group"
   vpc_id              = module.vpc.id
@@ -249,7 +277,6 @@ module "security_group" {
 * lb_algo: LBaaS backend distribution algorithm
 * depends_on: This ensures that the vpc, subnet and security group object will be created before the load balancer
 **/
-
 module "load_balancer" {
   source              = "./modules/load_balancer"
   vpc_id              = module.vpc.id
@@ -286,7 +313,6 @@ module "load_balancer" {
 * db_sg: Security group ID to be attached with DB VSI
 * depends_on: This ensures that the subnets, security group and bastion object will be created before the instance
 **/
-
 module "instance" {
   source                = "./modules/instance"
   prefix                = var.prefix
@@ -304,7 +330,6 @@ module "instance" {
   subnet                = module.subnet.sub_objects["db"].id
   db_sg                 = module.security_group.sg_objects["db"].id
   depends_on            = [module.subnet.ibm_is_subnet, module.security_group, module.bastion, module.placement_group]
-
 }
 
 /**
@@ -334,7 +359,6 @@ module "instance" {
 * app_cooldown_time: Specify the cool down period, the number of seconds to pause further scaling actions after scaling has taken place.
 * depends_on: This ensures that the vpc and other objects will be created before the instance group
 **/
-
 module "instance_group" {
   source                 = "./modules/instance_group"
   vpc_id                 = module.vpc.id
@@ -363,5 +387,7 @@ module "instance_group" {
   app_cpu_threshold      = var.app_cpu_threshold
   app_aggregation_window = var.app_aggregation_window
   app_cooldown_time      = var.app_cooldown_time
-  depends_on             = [module.bastion, module.load_balancer, module.instance, module.placement_group]
+  enable_file_share      = var.enable_file_share
+  mount_path             = module.file_share.mountPath
+  depends_on             = [module.bastion, module.load_balancer, module.instance, module.placement_group, module.file_share]
 }

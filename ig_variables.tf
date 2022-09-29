@@ -37,7 +37,7 @@ variable "web_instance_profile" {
 /**
 * Name: web_image
 * Type: String
-* Description: This is the image ID used for web VSI.
+* Desc: This is the image ID used for web VSI.
 **/
 variable "web_image" {
   description = "Image type you want to use for the web server. This can be either a custom image or IBM Cloud stock image. Image ID is 41 characters and region-specific. [Learn more](https://cloud.ibm.com/docs/vpc?topic=vpc-about-images)"

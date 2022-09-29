@@ -9,7 +9,7 @@
 /**
 * Name: lb_protocol, lb_algo, lb_protocol_value & lb_algo_value
 * Type: map(any)
-* Description: LBaaS Protocols & LBaaS backend distribution algorithm
+* Desc: LBaaS Protocols & LBaaS backend distribution algorithm
 **/
 locals { // put on top
   lb_protocol = {

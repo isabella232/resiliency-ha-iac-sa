@@ -8,7 +8,7 @@
 /**
 * Name: prefix
 * Type: String
-* Description: This is the prefix text that will be prepended in every resource name created by this script.
+* Desc: This is the prefix text that will be prepended in every resource name created by this script.
 **/
 variable "prefix" {
   description = "Prefix for all the resources."

@@ -5,7 +5,7 @@
 **/
 output "web_instances_ip" {
   description = "Private IP addresses for the Web VSI"
-  value = local.web_private_ips
+  value       = local.web_private_ips
 }
 
 /**
@@ -15,5 +15,5 @@ output "web_instances_ip" {
 **/
 output "app_instances_ip" {
   description = "Private IP addresses for the App VSI"
-  value = local.app_private_ips
+  value       = local.app_private_ips
 }

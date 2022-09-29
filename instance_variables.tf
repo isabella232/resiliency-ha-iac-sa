@@ -68,7 +68,7 @@ variable "data_vol_size" {
 /**
 * Name: db_profile
 * Type: String
-* Description: Hardware configuration profile for the Database VSI.
+* Desc: Hardware configuration profile for the Database VSI.
 **/
 variable "db_profile" {
   description = "VSI profile size which determines size of vCPU, RAM and network bandwidth for the db servers. [Learn more](https://cloud.ibm.com/docs/vpc?topic=vpc-profiles&interface=ui)"

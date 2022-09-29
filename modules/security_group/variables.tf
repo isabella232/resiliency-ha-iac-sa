@@ -26,7 +26,7 @@ variable "bastion_sg" {
 /**
 * Name: prefix
 * Type: String
-* Description: This is the prefix text that will be prepended in every resource name created by this script.
+* Desc: This is the prefix text that will be prepended in every resource name created by this script.
 **/
 variable "prefix" {
   description = "Prefix for all the resources."
@@ -56,7 +56,7 @@ variable "wlb_port" {
 /**
 * Name: vpc_id
 * Type: String
-* Description: This is the vpc ID which will be used for security group module. We are passing this vpc_id from main.tf
+* Desc: This is the vpc ID which will be used for security group module. We are passing this vpc_id from main.tf
 **/
 variable "vpc_id" {
   description = "Required parameter vpc_id"
