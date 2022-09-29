@@ -18,7 +18,6 @@ output "bastion_ip" {
   depends_on  = [ibm_is_instance.bastion, ibm_is_floating_ip.bastion_floating_ip]
 }
 
-
 /**
 * Output Variable for Bastion Server Security Group
 * This variable will return the Bastion Security Group ID 
@@ -27,3 +26,4 @@ output "bastion_sg" {
   value       = ibm_is_security_group.bastion.id
   description = "Security Group ID for the bastion"
 }
+

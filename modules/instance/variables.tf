@@ -8,7 +8,7 @@
 /**
 * Name: resource_group_name
 * Type: String
-* Description: Resource Group Name to be used for resources creation
+* Desc: Resource Group Name to be used for resources creation
 */
 variable "resource_group_name" {
   description = "Resource Group Name"
@@ -18,7 +18,7 @@ variable "resource_group_name" {
 /**
 * Name: prefix
 * Type: String
-* Description: This is the prefix text that will be prepended in every resource name created by this script.
+* Desc: This is the prefix text that will be prepended in every resource name created by this script.
 **/
 variable "prefix" {
   description = "Prefix for all the resources."
@@ -28,7 +28,7 @@ variable "prefix" {
 /**
 * Name: vpc_id
 * Type: String
-* Description: This is the vpc ID which will be used for instance module. We are passing this vpc_id from main.tf
+* Desc: This is the vpc ID which will be used for instance module. We are passing this vpc_id from main.tf
 **/
 variable "vpc_id" {
   description = "Required parameter vpc_id"
@@ -38,7 +38,7 @@ variable "vpc_id" {
 /**
 * Name: subnets
 * Type: list
-* Description: DB Subnet Ids
+* Desc: DB Subnet Ids
 **/
 variable "subnet" {
   description = "DB subnets Ids. This is required parameter"
@@ -48,7 +48,7 @@ variable "subnet" {
 /**
 * Name: db_sg
 * Type: string
-* Description: Security group ID to be attached with DB server
+* Desc: Security group ID to be attached with DB server
 **/
 variable "db_sg" {
   description = "DB Security Group"
@@ -68,7 +68,7 @@ variable "db_vsi_count" {
 /**
 * Name: ssh_key
 * Type: string
-* Description: ssh key to be attached with DB servers
+* Desc: ssh key to be attached with DB servers
 **/
 variable "ssh_key" {
   description = "ssh keys for the vsi"
@@ -138,7 +138,7 @@ variable "data_vol_size" {
 /**
 * Name: zone
 * Type: string
-* Description: Resources will be created in the user specified zone
+* Desc: Resources will be created in the user specified zone
 **/
 variable "zone" {
   description = "Resources will be created in the user specified zone"
